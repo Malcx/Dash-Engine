@@ -1,4 +1,19 @@
 RewriteEngine On
 
+
+# Rewrite the root to go to home page
+RewriteRule ^$ /home [L]
+
+
+# Rewrite the root to go to home page
+RewriteRule ^robots.txt /-/robots.php [L]
+
+
+# Anything in /-app folder that is not in /app/assets go to home page
+RewriteCond  %{REQUEST_URI} !^/-app/assets/.*
+RewriteRule ^-app/(.+)$ /home [L,QSA]
+
+# Anything else, if it's not a file then go to the file proc
+RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME} !-f
-RewriteRule ^(.+)$ index.php?dash-path=$1 [L]
+RewriteRule ^(.+)$ -/-.php?dash-path=$1 [L,QSA]
