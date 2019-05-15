@@ -30,11 +30,11 @@ This will then look for and if_exists append robots.txt files found at / and /-a
 
 
 ### ToDo
+
 Detailed readme instructions
+
 sitemap.xml
+
 /admin
-pagenotfound 
-back and forward buttons
-Cache pages locally
+
 g-analytics trigger on page load
-/ link

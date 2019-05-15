@@ -26,9 +26,8 @@ $TMP = <<<EOT
 	<li>Or may be outside of /-app altogether<br />
 	<img src="/demofiles/noimage.png" width="100" /></li>
 
-	<li><a href="/news/">News</a><br /></li>
 	<li><a href="Dash-launch">Use full paths - relative will not work</a></li>
-	<li>External links work as normal <a href="http://www.google.com">Google</a><li>
+	<li>External links work as normal <a href="http://www.google.com">Google</a></li>
 
 	</ul>
 

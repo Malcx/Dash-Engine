@@ -5,13 +5,17 @@ RewriteEngine On
 RewriteRule ^$ /home [L]
 
 
-# Rewrite the root to go to home page
+# Rewrite robots.txt calls
 RewriteRule ^robots.txt /-/robots.php [L]
+
+# Rewrite sitemap.xml calls
+RewriteRule ^sitemap.xml /-/sitemap.php [L]
 
 
 # Anything in /-app folder that is not in /app/assets go to home page
 RewriteCond  %{REQUEST_URI} !^/-app/assets/.*
 RewriteRule ^-app/(.+)$ /home [L,QSA]
+
 
 # Anything else, if it's not a file then go to the file proc
 RewriteCond %{REQUEST_FILENAME} !-d

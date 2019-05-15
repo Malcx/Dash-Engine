@@ -1,4 +1,7 @@
 function setMenu(which){
-	console.log("site specific -> set menu -> " + which);
+
+	$( "#menu a" ).removeClass( "active" )
+	$( "#menu #menu-"+which ).addClass( "active" )
+
 
 }

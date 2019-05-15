@@ -101,10 +101,13 @@ class Page {
 
 
     private function JSONout(){
+    	global $_CONFIG;
     	$o = array();
     	$o["META"] = $this->_META;
     	$o["CONTENT"] = $this->_CONTENT;
     	$o["SCRIPT"] = $this->_SCRIPT;
+    	$o["CACHETIME"] = $_CONFIG["cachetimeinseconds"];
+    	$o["EXPIRESTIME"] = 0;
     	echo json_encode($o);
 
     }

@@ -3,6 +3,14 @@ header('Content-Type: application/javascript');
 ?>
 
 
+var imported = document.createElement('script');
+imported.src = '/-/libs/md5.js';
+document.head.appendChild(imported);
+
+
+
+var _HISTORY = new Array();
+
 var _ROUTES = new Array();
 <?php
 	echo "_ROUTES.push('')\n";
@@ -17,6 +25,15 @@ var _ROUTES = new Array();
 
 // When ready
 $(document).ready(function(){
+
+
+	// Handle back and forward buttons
+	window.onpopstate = function(event) {
+		var host = document.location.protocol + "//" +document.location.hostname;
+		dashPageTo(document.location.href.replace(host,''));
+	};
+
+
 
 	/* Handle A clicks*/
 	$(document).on("click", "a", function(e){
@@ -52,12 +69,45 @@ $(document).ready(function(){
 
 
 function dashPageTo(href){
+
+  	var md5href = md5(href);
+
+  	// Is the content cached?
+	if(_HISTORY[md5href] !== undefined)
+	{
+
+		// Has it expired?
+		if(_HISTORY[md5href].EXPIRESTIME > Math.floor((new Date).getTime()/1000))
+		{
+			dashProcessPage(_HISTORY[md5href]);
+			return;
+		}
+	}
+
+
+
 	$.ajax({
   type: 'GET',
   url: href,
   data: {json: '1'},
   dataType: 'json',
   success: function (data) {
+
+
+  	data.EXPIRESTIME = Math.floor((new Date).getTime()/1000) + data.CACHETIME;
+  	_HISTORY[md5href] = data;
+
+  	dashProcessPage(data);
+
+  }
+});
+}
+
+
+
+
+function dashProcessPage(data){
+
   	// Update all the content on the page - IF Dash-id's have changed
   	$.each(data.CONTENT, function(index, element) {
         var domObj = $("#" + index);
@@ -86,12 +136,7 @@ function dashPageTo(href){
   		new Function("", element[0]+"("+args.slice(0, -2)+")")();
     });
 
-  }
-});
 }
-
-
-
 
 var mbx = function() {
 
