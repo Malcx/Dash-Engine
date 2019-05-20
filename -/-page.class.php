@@ -21,7 +21,6 @@ class Page {
 
     public function setTemplate($tPath) {
     	$this->_TEMPLATE = $tPath;
-    	$o = file_get_contents("../-app/templates/" . $this->_TEMPLATE);
     }
 
 
@@ -66,7 +65,7 @@ class Page {
     */
 
 	private function HTMLout(){
-    	$o = file_get_contents("../-app/templates/" . $this->_TEMPLATE);
+    	$o = getProcessedTemplateFile("../-app/templates/" . $this->_TEMPLATE);
 
 
 

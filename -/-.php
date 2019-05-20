@@ -4,7 +4,7 @@
 // May need to be revisited with a better solution?
 $_INC_ARGS = null;
 
-include_once("../-app/config.php");
+include_once("../-app/setup.php");
 include_once("-page.class.php");
 $_PAGE = new Page();
 $_PAGE->setTemplate("default.html");
