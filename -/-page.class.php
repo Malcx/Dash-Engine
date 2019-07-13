@@ -11,6 +11,8 @@ class Page {
 		$this->_META = array();
 		$this->_CONTENT = array();
 		$this->_SCRIPT = array();
+    $this->_DONOTCACHE = false;
+    $this->_PERMCACHE = false;
     }
 
 
@@ -20,7 +22,16 @@ class Page {
 	}
 
     public function setTemplate($tPath) {
-    	$this->_TEMPLATE = $tPath;
+      $this->_TEMPLATE = $tPath;
+    }
+
+
+    public function setDoNotCache() {
+      $this->_DONOTCACHE = true;
+    }
+
+    public function setPermCache() {
+      $this->_PERMCACHE = true;
     }
 
 
@@ -102,7 +113,9 @@ class Page {
     private function JSONout(){
     	global $_CONFIG;
     	$o = array();
-    	$o["META"] = $this->_META;
+      $o["DONOTCACHE"] = $this->_DONOTCACHE;
+      $o["PERMCACHE"] = $this->_PERMCACHE;
+      $o["META"] = $this->_META;
     	$o["CONTENT"] = $this->_CONTENT;
     	$o["SCRIPT"] = $this->_SCRIPT;
     	$o["CACHETIME"] = $_CONFIG["cachetimeinseconds"];

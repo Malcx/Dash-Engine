@@ -29,6 +29,20 @@ This will then look for and if_exists append robots.txt files found at / and /-a
 
 
 
+
+$_INC_ARGS = "home";
+A variable passed (globally!) to any included files - it is NOT cleaned at the end of any include
+
+$_PAGE->AddContent("dash-header", "stockheader", getProcessedTemplateFile("../-app/templates/header.html"));
+Add content to a page. _content_tag_to_replace_, _unique_content_id_, _html_
+
+$_PAGE->AddReadyFunctionCall("setMenu", array("home"));
+function to call after content has loaded with a single parameter passed
+
+$_PAGE->setDoNotCache();
+Do not cache this page - i.e. reload EVER time it is requested
+
+
 ### ToDo
 Meta
 

@@ -4,7 +4,7 @@
 $_INC_ARGS = "home";
 $_PAGE->AddContent("dash-header", "stockheader", getProcessedTemplateFile("../-app/templates/header.html"));
 $_PAGE->AddReadyFunctionCall("setMenu", array("home"));
-
+$_PAGE->setDoNotCache();
 
 
 

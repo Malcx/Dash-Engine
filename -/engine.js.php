@@ -8,10 +8,10 @@ imported.src = '/-/libs/md5.js';
 document.head.appendChild(imported);
 
 
-
 var _HISTORY = new Array();
-
 var _ROUTES = new Array();
+
+
 <?php
 	echo "_ROUTES.push('')\n";
 
@@ -38,12 +38,13 @@ $(document).ready(function(){
 	/* Handle A clicks*/
 	$(document).on("click", "a", function(e){
 		var targetHref = $(this).attr("href");
+		var targetWindow = $(this).attr("target");
 		var trimmedHref = targetHref.replace(/^\//, '');
 		var rootHref = trimmedHref.split("/")[0];
 
 
 		// Detect if the user is trying to open in a new window / covers most browsers
-		if ( e.ctrlKey || e.shiftKey || e.metaKey || (e.button && e.button == 1) )
+		if ( targetWindow || e.ctrlKey || e.shiftKey || e.metaKey || (e.button && e.button == 1) )
 			return true;
 
 
@@ -63,6 +64,7 @@ $(document).ready(function(){
 
 	});
 
+	dashPostProcessPageLoad();
 
 });
 
@@ -75,7 +77,6 @@ function dashPageTo(href){
   	// Is the content cached?
 	if(_HISTORY[md5href] !== undefined)
 	{
-
 		// Has it expired?
 		if(_HISTORY[md5href].EXPIRESTIME > Math.floor((new Date).getTime()/1000))
 		{
@@ -94,7 +95,16 @@ function dashPageTo(href){
   success: function (data) {
 
 
+
   	data.EXPIRESTIME = Math.floor((new Date).getTime()/1000) + data.CACHETIME;
+  	// if do not cache set time to 1970
+  	if(data.DONOTCACHE)
+  		data.EXPIRESTIME = 0;
+
+  	// if perm cache set time to year 5138
+  	if(data.PERMCACHE)
+  		data.EXPIRESTIME = 99999999999;
+
   	_HISTORY[md5href] = data;
 
   	dashProcessPage(data);
@@ -107,6 +117,11 @@ function dashPageTo(href){
 
 
 function dashProcessPage(data){
+
+
+	if (typeof dashPreProcessPageLoad === 'function') {
+		dashPreProcessPageLoad();
+	}
 
   	// Update all the content on the page - IF Dash-id's have changed
   	$.each(data.CONTENT, function(index, element) {
@@ -135,6 +150,12 @@ function dashProcessPage(data){
 
   		new Function("", element[0]+"("+args.slice(0, -2)+")")();
     });
+
+
+
+	if (typeof dashPostProcessPageLoad === 'function') {
+		dashPostProcessPageLoad();
+	}
 
 }
 
